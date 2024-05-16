@@ -1,0 +1,112 @@
+const int bluetoothTx = 2; 
+const int bluetoothRx = 3;
+
+
+SoftwareSerial bluetooth(bluetoothTx, bluetoothRx);
+
+
+const int motor1PWM = 5; 
+const int motor1Dir = 4;
+const int motor2Dir = 6; 
+const int motor2Dir = 7; 
+const int motor3PWM = 9; 
+const int motor3Dir = 8; 
+const int motor4PWM = 11; 
+const int motor4Dir = 10; 
+
+void setup() {
+  
+  bluetooth.begin(9600);
+
+  
+  pinMode(motor1PWM, OUTPUT);
+  pinMode(motor1Dir, OUTPUT);
+  pinMode(motor2PWM, OUTPUT);
+  pinMode(motor2Dir, OUTPUT);
+  pinMode(motor3PWM, OUTPUT);
+  pinMode(motor3Dir, OUTPUT);
+  pinMode(motor4PWM, OUTPUT);
+  pinMode(motor4Dir, OUTPUT);
+}
+
+void loop() {
+  
+  if (bluetooth.available()) {
+    char receivedChar = bluetooth.read(); 
+
+    
+    switch (receivedChar) {
+      case 'F': 
+        moveForward();
+        break;
+      case 'B': 
+        moveBackward();
+        break;
+      case 'L': 
+        turnLeft();
+        break;
+      case 'R':
+        turnRight();
+        break;
+      case 'S': 
+        stopMotors();
+        break;
+    }
+  }
+}
+
+
+void moveForward() {
+  digitalWrite(motor1Dir, HIGH);
+  analogWrite(motor1PWM, 255);
+  digitalWrite(motor2Dir, HIGH);
+  analogWrite(motor2PWM, 255);
+  digitalWrite(motor3Dir, HIGH);
+  analogWrite(motor3PWM, 255);
+  digitalWrite(motor4Dir, HIGH);
+  analogWrite(motor4PWM, 255);
+}
+
+
+void moveBackward() {
+  digitalWrite(motor1Dir, LOW);
+  analogWrite(motor1PWM, 255);
+  digitalWrite(motor2Dir, LOW);
+  analogWrite(motor2PWM, 255);
+  digitalWrite(motor3Dir, LOW);
+  analogWrite(motor3PWM, 255);
+  digitalWrite(motor4Dir, LOW);
+  analogWrite(motor4PWM, 255);
+}
+
+
+void turnLeft() {
+  digitalWrite(motor1Dir, HIGH);
+  analogWrite(motor1PWM, 255);
+  digitalWrite(motor2Dir, LOW);
+  analogWrite(motor2PWM, 255);
+  digitalWrite(motor3Dir, HIGH);
+  analogWrite(motor3PWM, 255);
+  digitalWrite(motor4Dir, LOW);
+  analogWrite(motor4PWM, 255);
+}
+
+
+void turnRight() {
+  digitalWrite(motor1Dir, LOW);
+  analogWrite(motor1PWM, 255);
+  digitalWrite(motor2Dir, HIGH);
+  analogWrite(motor2PWM, 255);
+  digitalWrite(motor3Dir, LOW);
+  analogWrite(motor3PWM, 255);
+  digitalWrite(motor4Dir, HIGH);
+  analogWrite(motor4PWM, 255);
+}
+
+
+void stopMotors() {
+  digitalWrite(motor1PWM, LOW);
+  digitalWrite(motor2PWM, LOW);
+  digitalWrite(motor3PWM, LOW);
+  digitalWrite(motor4PWM, LOW);
+}
